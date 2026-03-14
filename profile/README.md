@@ -124,132 +124,6 @@ OASIS runs as five Docker containers on a single internal network:
 └──────────────────────────────────────────────────────────┘
 ```
 
-## Quick Start
-
-### Prerequisites
-
-- Docker and Docker Compose
-- At least one AI provider API key (OpenAI, Google, Scaleway, etc.)
-
-### 1. Clone the repository
-
-```bash
-git clone https://github.com/oasis-surveys/oasis.git
-cd oasis
-```
-
-### 2. Configure environment variables
-
-Copy the example `.env` file and fill in your API keys:
-
-```bash
-cp .env.example .env
-```
-
-At a minimum, you will need:
-
-```env
-# Required
-OPENAI_API_KEY=sk-...
-SECRET_KEY=some-random-secret-string
-
-# Recommended for voice interviews
-DEEPGRAM_API_KEY=...
-ELEVENLABS_API_KEY=...
-
-# Optional providers
-GOOGLE_API_KEY=...
-SCALEWAY_SECRET_KEY=...
-SCALEWAY_PROJECT_ID=...
-
-# Optional: enable login page
-AUTH_ENABLED=false
-AUTH_USERNAME=admin
-AUTH_PASSWORD=your-password
-
-# Optional: Twilio for phone interviews
-TWILIO_ACCOUNT_SID=...
-TWILIO_AUTH_TOKEN=...
-TWILIO_PHONE_NUMBER=...
-```
-
-### 3. Start the platform
-
-```bash
-docker compose up -d
-```
-
-That is it. Open your browser and go to `http://localhost` (or your server's address). The admin dashboard will be ready.
-
-### 4. Create your first study
-
-1. Click **"New Study"** in the dashboard
-2. Add an agent, write a system prompt, select your models
-3. Set the agent to **Active**
-4. Copy the interview link and share it with participants
-
-## Project Structure
-
-```
-oasis/
-├── backend/
-│   ├── app/
-│   │   ├── api/          # REST + WebSocket endpoints
-│   │   ├── models/       # SQLAlchemy ORM models
-│   │   ├── schemas/      # Pydantic request/response schemas
-│   │   ├── pipeline/     # Pipecat pipeline runner and processors
-│   │   ├── knowledge/    # RAG: chunking, embedding, retrieval
-│   │   ├── config.py     # Environment-based settings
-│   │   └── main.py       # FastAPI app entry point
-│   ├── alembic/          # Database migrations
-│   ├── tests/            # Pytest test suite
-│   └── Dockerfile
-├── frontend/
-│   ├── src/
-│   │   ├── pages/        # Dashboard and interview widget pages
-│   │   ├── components/   # Shared UI components
-│   │   ├── contexts/     # React contexts (auth)
-│   │   └── lib/          # API client, constants, utilities
-│   └── Dockerfile
-├── docker/
-│   └── Caddyfile         # Reverse proxy config
-├── docker-compose.yml
-└── .env.example
-```
-
-## Testing
-
-OASIS has a comprehensive test suite that runs without any real API keys. All external calls are mocked.
-
-```bash
-# Backend tests (from the backend/ directory)
-pip install -r requirements.txt
-pytest tests/ -v --cov=app
-
-# Frontend tests (from the frontend/ directory)
-npm install
-npx vitest run
-```
-
-Tests also run automatically on every push via GitHub Actions. A weekly scheduled run makes sure nothing has drifted.
-
-## Configuration Reference
-
-All settings are managed through environment variables. See `backend/app/config.py` for the full list, or check the [documentation](https://oasis-surveys.github.io/docs) for a detailed walkthrough.
-
-Key options:
-
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `OPENAI_API_KEY` | OpenAI API key | (required for OpenAI models) |
-| `DEEPGRAM_API_KEY` | Deepgram STT key | (required for modular voice pipeline) |
-| `ELEVENLABS_API_KEY` | ElevenLabs TTS key | (required for modular voice pipeline) |
-| `GOOGLE_API_KEY` | Google AI Studio key | (optional, for Gemini models) |
-| `SCALEWAY_SECRET_KEY` | Scaleway API key | (optional, European-hosted models) |
-| `AUTH_ENABLED` | Enable dashboard login | `false` |
-| `AUTH_USERNAME` | Login username | `admin` |
-| `AUTH_PASSWORD` | Login password | (must be set if auth enabled) |
-
 ## Goals
 
 OASIS exists to fill a gap. Commercial conversational AI platforms are built for customer support, sales, and marketing. They are good at what they do, but research has different requirements:
@@ -265,7 +139,7 @@ The long-term goal is for OASIS to become a standard open-source tool that surve
 
 Contributions are very welcome. If you are interested in contributing, improving the platform, or building on it for your own research, please reach out first. Open an issue or send an email to [max.lang@stx.ox.ac.uk](mailto:max.lang@stx.ox.ac.uk).
 
-For feature requests and bug reports, please use [GitHub Issues](https://github.com/oasis-surveys/oasis/issues).
+For feature requests and bug reports, please use [GitHub Issues](https://github.com/oasis-surveys/oasis-platform/issues).
 
 ## License
 
